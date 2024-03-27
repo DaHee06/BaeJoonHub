@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,30 +9,27 @@ public class Main {
 
         int N = Integer.parseInt(br.readLine());
 
-        String[][] arr = new String[N][2];
+        StringBuilder[] p = new StringBuilder[201];
 
-        for(int i = 0 ; i < N ; i++){
-            String[] st = br.readLine().split(" ");
-
-            arr[i][0] = st[0];
-            arr[i][1] = st[1];
+        for (int i = 0; i < p.length; i++) {
+            p[i] = new StringBuilder();
         }
 
-
-        Arrays.sort(arr, new Comparator<String[]>() {
-            @Override
-            public int compare(String[] o1, String[] o2) {
-                if(o1[0] == o2[0]){
-                    return o1[1].compareTo(o1[2]);
-                }else{
-                    return Integer.parseInt(o1[0]) - Integer.parseInt(o2[0]);
-                }
-            }
-        });
-
-        for(int i = 0; i< N ; i++){
-            System.out.println(arr[i][0] + " " + arr[i][1]);
+        //p[age]에 저장될 때 같은 나이끼리 저장, 문자는 자연스레 사전순
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            int age = Integer.parseInt(st.nextToken());
+            String name = st.nextToken();
+            p[age].append(age).append(' ').append(name).append('\n');
         }
+
+        StringBuilder sb = new StringBuilder();
+        for(StringBuilder v : p){
+            sb.append(v);
+        }
+
+        System.out.println(sb);
+
 
     }
 }
