@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,23 +13,15 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        String[] arr1 = new String[N];
-        String[] arr2 = new String[M];
-
-        for(int i = 0 ; i < N ; i++){
-            String str1 = br.readLine();
-            arr1[i] = str1;
-        }
-        for(int i = 0 ; i < M ; i++){
-            String str2 = br.readLine();
-            arr2[i] = str2;
-        }
-
         int count = 0;
-        for (String str1 : arr1) {
-            for (String str2 : arr2) {
-                if(str1.equals(str2)) count++;
-            }
+        Set<String> arr = new HashSet<>();
+
+        for (int i = 0; i < N ; i++) {
+            arr.add(br.readLine());
+        }
+
+        for (int i = 0; i < M ; i++) {
+            if(arr.contains(br.readLine())) count++;
         }
 
         System.out.println(count);
