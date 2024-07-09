@@ -1,30 +1,31 @@
 import java.util.ArrayList;
-import java.util.List;
 
 class Solution {
-    public List<Integer> solution(int[] answers) {
-        int[] num1 = {1,2,3,4,5};
-        int[] num2 = {2,1,2,3,2,4,2,5};
-        int[] num3 = {3,3,1,1,2,2,4,4,5,5};
+     public ArrayList<Integer> solution(int[] answers) {
+        int[][] pattern = {{1, 2, 3, 4, 5},
+                           {2, 1, 2, 3, 2, 4, 2, 5},
+                           {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}};
         
-        int[] cnt = {0,0,0};
+        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> ans = new ArrayList<>();
 
-        for(int i = 0 ;i <answers.length;i++){
-            if(answers[i] == num1[i%5]) cnt[0]++;
-            if(answers[i] == num2[i%8]) cnt[1]++;
-            if(answers[i] == num3[i%10]) cnt[2]++;
+        for(int i = 0; i < pattern.length; i++) {
+            int cnt = 0;
+            for(int j = 0; j < answers.length; j++) {
+                if(answers[j] == pattern[i][j % pattern[i].length]) cnt++;
+            }
+            list.add(cnt);
         }
 
-        int max = Math.max(Math.max(cnt[0], cnt[1]),cnt[2]);
+        int MAX = Integer.MIN_VALUE;
 
-        List<Integer> list = new ArrayList<>();
-
-        for(int i = 0 ;i <3;i++){
-           if(cnt[i] == max){
-               list.add(i+1);
-           }
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i) > MAX) MAX = list.get(i);
         }
 
-        return list;
+        for(int i = 0; i < list.size(); i++) {
+            if(MAX == list.get(i)) ans.add(i + 1);
+        }
+        return ans;
     }
 }
