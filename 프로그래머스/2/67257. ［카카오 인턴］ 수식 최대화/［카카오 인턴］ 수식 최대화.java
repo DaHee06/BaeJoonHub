@@ -1,59 +1,59 @@
 import java.util.ArrayList;
 
 class Solution {
-    public long solution(String expression) {
-        long answer = 0;
+   public static long solution(String expression) {
+       String[][] exc = {{"+","-","*"},{"+","*","-"},{"-","+","*"},{"-","*","+"},{"*","-","+"},{"*","+","-"}};
 
-        String op[][] = {{"+","-","*"},{"+","*","-"},{"-","+","*"},{"-","*","+"},{"*","-","+"},{"*","+","-"}};
-
-        ArrayList<String> list = new ArrayList<String>();
-
-        //StringTokenizer로 변경해보기
+        ArrayList<String> list = new ArrayList<>();
         int start = 0;
-        for(int i=0;i<expression.length();i++){
-            if(expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '*'){
-                list.add(expression.substring(start,i));
-                list.add(expression.charAt(i)+""); //String으로 변경
+
+        for(int i = 0 ; i<expression.length();i++){
+            char c = expression.charAt(i);
+            if (c == '+' || c == '-' || c == '*') {
+                list.add(expression.substring(start, i));
+                list.add(String.valueOf(expression.charAt(i)));
                 start = i+1;
             }
         }
+
         list.add(expression.substring(start));
 
-        for(int i = 0 ; i<op.length;i++){
-            ArrayList<String> sub_list = new ArrayList<String>(list);
-            for(int j = 0; j<3;j++){
-                for (int k = 0; k < sub_list.size(); k++) {
-                    if (op[i][j].equals(sub_list.get(k))) {
-                        sub_list.set(k - 1, calculate(sub_list.get(k - 1), sub_list.get(k), sub_list.get(k + 1)));
-                        sub_list.remove(k);
-                        sub_list.remove(k);
-                        k--;
+        long max  = Integer.MIN_VALUE;
+
+        for (String[] ops : exc) { //
+            long result = calculate(new ArrayList<>(list), ops);
+            max = Math.max(max, result);
+        }
+
+        return max;
+    }
+
+    private static long calculate(ArrayList<String> list, String[] ops) {
+        for (String op : ops) {
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).equals(op)) {
+                    long n = Long.parseLong(list.get(i - 1));
+                    long m = Long.parseLong(list.get(i + 1));
+                    long result = 0;
+                    switch (op) {
+                        case "+":
+                            result = n + m;
+                            break;
+                        case "-":
+                            result = n - m;
+                            break;
+                        case "*":
+                            result = n * m;
+                            break;
                     }
+                    list.set(i - 1, Long.toString(result));
+                    list.remove(i);
+                    list.remove(i);
+                    i--; //
                 }
             }
-            answer = Math.max(answer, Math.abs(Long.parseLong(sub_list.get(0))));
         }
-
-        return answer;
-    
-    }
-    
-    
-    public  String calculate(String num1, String oper, String num2){
-        long n1 = Long.parseLong(num1);
-        long n2 = Long.parseLong(num2);
-
-//        return switch (oper){
-//            case "+" n1 + n2 + ""; break;
-//
-//        }
-        if(oper.equals("+")){
-            return n1 + n2 + "";
-        }else if(oper.equals("-")){
-            return n1 - n2 + "";
-        }else{
-            return n1 * n2 + "";
-        }
+        return Math.abs(Long.parseLong(list.get(0)));
     }
 }
 
