@@ -1,24 +1,18 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
-        int[] answer = new int[2];
+        int[] arr = new int[2];
+        int sum = brown + yellow; // 격자 총 개수
+        for(int i =3 ;i<sum/2 ;i ++){ // 최소 가로 행의 수 3, 최대 격자 수 sum/2
+            int row = i;
+            int col = sum/row;
 
-        int carpet = brown + yellow;
-
-        for(int i = 3;i<=carpet;i++){
-            int w = i;
-            int h = carpet/w;
-
-            if(w >=3 && h>=3) {
-                int bow = 2 * (w + h - 2);
-                int cen = w * h - bow;
-
-                if (brown == bow && yellow == cen){
-                    answer[0] = w;
-                    answer[1] = h;
-                }
+            if((row - 2) * (col-2) == yellow){
+                arr[0] = col;
+                arr[1] = row;
+                break;
             }
-        }
 
-        return answer;
+        }
+        return arr;
     }
 }
